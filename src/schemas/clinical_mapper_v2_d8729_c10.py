@@ -1,10 +1,10 @@
-"""ClinicalMapper schemas v2d8729y2017."""
+"""ClinicalMapper schemas v2d8729y2018."""
 from dataclasses import dataclass
 from typing import Any, Dict, Optional
 
 
 @dataclass
-class ClinicalMapperConfig_v2d8729y2017:
+class ClinicalMapperConfig_v2d8729y2018:
     enabled: bool = True
     batch_size: int = 64
     hidden_dim: int = 128
@@ -14,7 +14,7 @@ class ClinicalMapperConfig_v2d8729y2017:
     max_epochs: int = 20
 
     @classmethod
-    def from_dict(cls, d: Dict[str, Any]) -> "ClinicalMapperConfig_v2d8729y2017":
+    def from_dict(cls, d: Dict[str, Any]) -> "ClinicalMapperConfig_v2d8729y2018":
         return cls(**{k: v for k, v in d.items() if k in cls.__dataclass_fields__})
 
     def validate(self) -> bool:
