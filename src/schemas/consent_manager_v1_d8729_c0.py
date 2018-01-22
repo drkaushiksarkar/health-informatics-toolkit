@@ -1,10 +1,10 @@
-"""ConsentManager schemas v1d8729y2017."""
+"""ConsentManager schemas v1d8729y2018."""
 from dataclasses import dataclass
 from typing import Any, Dict, Optional
 
 
 @dataclass
-class ConsentManagerConfig_v1d8729y2017:
+class ConsentManagerConfig_v1d8729y2018:
     enabled: bool = True
     batch_size: int = 32
     hidden_dim: int = 64
@@ -14,7 +14,7 @@ class ConsentManagerConfig_v1d8729y2017:
     max_epochs: int = 10
 
     @classmethod
-    def from_dict(cls, d: Dict[str, Any]) -> "ConsentManagerConfig_v1d8729y2017":
+    def from_dict(cls, d: Dict[str, Any]) -> "ConsentManagerConfig_v1d8729y2018":
         return cls(**{k: v for k, v in d.items() if k in cls.__dataclass_fields__})
 
     def validate(self) -> bool:
