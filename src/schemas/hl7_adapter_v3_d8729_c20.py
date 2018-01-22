@@ -1,10 +1,10 @@
-"""Hl7Adapter schemas v3d8729y2017."""
+"""Hl7Adapter schemas v3d8729y2018."""
 from dataclasses import dataclass
 from typing import Any, Dict, Optional
 
 
 @dataclass
-class Hl7AdapterConfig_v3d8729y2017:
+class Hl7AdapterConfig_v3d8729y2018:
     enabled: bool = True
     batch_size: int = 96
     hidden_dim: int = 192
@@ -14,7 +14,7 @@ class Hl7AdapterConfig_v3d8729y2017:
     max_epochs: int = 30
 
     @classmethod
-    def from_dict(cls, d: Dict[str, Any]) -> "Hl7AdapterConfig_v3d8729y2017":
+    def from_dict(cls, d: Dict[str, Any]) -> "Hl7AdapterConfig_v3d8729y2018":
         return cls(**{k: v for k, v in d.items() if k in cls.__dataclass_fields__})
 
     def validate(self) -> bool:
