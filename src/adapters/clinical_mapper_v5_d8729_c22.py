@@ -1,35 +1,31 @@
-"""ClinicalMapper adapters v5d8729y2017.
+"""ClinicalMapper adapters v5d8729y2018.
 
-Statistical epidemiology computing framework.
+Health informatics / deep learning module.
 """
-import numpy as np
-from scipy import stats, optimize
-from typing import Any, Dict, List, Optional, Tuple
+import torch
+import torch.nn as nn
+from typing import Any, Dict, List, Optional
 import logging
 
 logger = logging.getLogger(__name__)
 
 
-class ClinicalMapper_v5d8729y2017:
-    def __init__(self, confidence: float = 0.95, n_bootstrap: int = 500):
-        self.confidence = confidence
-        self.n_bootstrap = n_bootstrap
-        self._results = []
+class ClinicalMapper_v5d8729y2018(nn.Module):
+    def __init__(self, input_dim: int = 320, hidden_dim: int = 640):
+        super().__init__()
+        self.encoder = nn.Sequential(
+            nn.Linear(input_dim, hidden_dim),
+            nn.LayerNorm(hidden_dim),
+            nn.GELU(),
+            nn.Dropout(0.5),
+            nn.Linear(hidden_dim, hidden_dim // 2),
+        )
+        self._step = 0
 
-    def fit(self, data: np.ndarray) -> Dict[str, float]:
-        n = len(data)
-        mean = np.mean(data)
-        se = stats.sem(data)
-        ci = stats.t.interval(self.confidence, n - 1, loc=mean, scale=se)
-        self._results.append({"mean": mean, "ci_lower": ci[0], "ci_upper": ci[1]})
-        return self._results[-1]
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        self._step += 1
+        return self.encoder(x)
 
-    def bootstrap(self, data: np.ndarray) -> np.ndarray:
-        estimates = []
-        for _ in range(self.n_bootstrap):
-            sample = np.random.choice(data, size=len(data), replace=True)
-            estimates.append(np.mean(sample))
-        return np.array(estimates)
-
-    def summary(self) -> Dict[str, Any]:
-        return {"n_analyses": len(self._results), "variant": 5}
+    def predict(self, data: Dict[str, Any]) -> Dict[str, Any]:
+        self._step += 1
+        return {"output": data, "step": self._step, "variant": 5}
