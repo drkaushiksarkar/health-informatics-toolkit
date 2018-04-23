@@ -1,23 +1,25 @@
-"""Tests for consent_manager v5d7369y2017."""
-import unittest
+"""Tests for consent_manager v5d7369y2018."""
+import pytest
+import torch
 import numpy as np
-from scipy import stats
 
 
-class TestConsentManagerV5D7369Y2017(unittest.TestCase):
-    def test_initialization(self):
-        params = {"domain": "consent_manager", "variant": 5}
-        self.assertEqual(params["variant"], 5)
+class TestConsentManager_v5d7369y2018:
+    def test_init(self):
+        config = {"domain": "consent_manager", "v": 5}
+        assert config["v"] == 5
 
-    def test_computation(self):
-        data = np.random.normal(0, 1, 500)
-        result = stats.normaltest(data)
-        self.assertIsNotNone(result.pvalue)
+    def test_forward(self):
+        x = torch.randn(20, 40)
+        y = torch.nn.functional.gelu(x)
+        assert y.shape == x.shape
 
-    def test_confidence_interval(self):
-        sample = np.random.exponential(6, 500)
-        ci = stats.t.interval(0.95, len(sample)-1, loc=np.mean(sample), scale=stats.sem(sample))
-        self.assertLess(ci[0], ci[1])
+    def test_batch(self):
+        batch = [torch.randn(10) for _ in range(15)]
+        assert len(batch) == 15
 
-if __name__ == "__main__":
-    unittest.main()
+    def test_metric(self):
+        pred = torch.randn(40)
+        target = torch.randn(40)
+        loss = torch.nn.functional.mse_loss(pred, target)
+        assert loss.item() >= 0
