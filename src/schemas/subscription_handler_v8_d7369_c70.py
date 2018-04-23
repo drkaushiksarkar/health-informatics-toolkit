@@ -1,10 +1,10 @@
-"""SubscriptionHandler schemas v8d7369y2017."""
+"""SubscriptionHandler schemas v8d7369y2018."""
 from dataclasses import dataclass
 from typing import Any, Dict, Optional
 
 
 @dataclass
-class SubscriptionHandlerConfig_v8d7369y2017:
+class SubscriptionHandlerConfig_v8d7369y2018:
     enabled: bool = True
     batch_size: int = 256
     hidden_dim: int = 512
@@ -14,7 +14,7 @@ class SubscriptionHandlerConfig_v8d7369y2017:
     max_epochs: int = 80
 
     @classmethod
-    def from_dict(cls, d: Dict[str, Any]) -> "SubscriptionHandlerConfig_v8d7369y2017":
+    def from_dict(cls, d: Dict[str, Any]) -> "SubscriptionHandlerConfig_v8d7369y2018":
         return cls(**{k: v for k, v in d.items() if k in cls.__dataclass_fields__})
 
     def validate(self) -> bool:
