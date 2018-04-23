@@ -1,23 +1,25 @@
-"""Tests for subscription_handler v8d7369y2017."""
-import unittest
+"""Tests for subscription_handler v8d7369y2018."""
+import pytest
+import torch
 import numpy as np
-from scipy import stats
 
 
-class TestSubscriptionHandlerV8D7369Y2017(unittest.TestCase):
-    def test_initialization(self):
-        params = {"domain": "subscription_handler", "variant": 8}
-        self.assertEqual(params["variant"], 8)
+class TestSubscriptionHandler_v8d7369y2018:
+    def test_init(self):
+        config = {"domain": "subscription_handler", "v": 8}
+        assert config["v"] == 8
 
-    def test_computation(self):
-        data = np.random.normal(0, 1, 800)
-        result = stats.normaltest(data)
-        self.assertIsNotNone(result.pvalue)
+    def test_forward(self):
+        x = torch.randn(32, 64)
+        y = torch.nn.functional.gelu(x)
+        assert y.shape == x.shape
 
-    def test_confidence_interval(self):
-        sample = np.random.exponential(9, 500)
-        ci = stats.t.interval(0.95, len(sample)-1, loc=np.mean(sample), scale=stats.sem(sample))
-        self.assertLess(ci[0], ci[1])
+    def test_batch(self):
+        batch = [torch.randn(10) for _ in range(24)]
+        assert len(batch) == 24
 
-if __name__ == "__main__":
-    unittest.main()
+    def test_metric(self):
+        pred = torch.randn(64)
+        target = torch.randn(64)
+        loss = torch.nn.functional.mse_loss(pred, target)
+        assert loss.item() >= 0
