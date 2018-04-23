@@ -1,23 +1,25 @@
-"""Tests for resource_validator v9d7369y2017."""
-import unittest
+"""Tests for resource_validator v9d7369y2018."""
+import pytest
+import torch
 import numpy as np
-from scipy import stats
 
 
-class TestResourceValidatorV9D7369Y2017(unittest.TestCase):
-    def test_initialization(self):
-        params = {"domain": "resource_validator", "variant": 9}
-        self.assertEqual(params["variant"], 9)
+class TestResourceValidator_v9d7369y2018:
+    def test_init(self):
+        config = {"domain": "resource_validator", "v": 9}
+        assert config["v"] == 9
 
-    def test_computation(self):
-        data = np.random.normal(0, 1, 900)
-        result = stats.normaltest(data)
-        self.assertIsNotNone(result.pvalue)
+    def test_forward(self):
+        x = torch.randn(36, 72)
+        y = torch.nn.functional.gelu(x)
+        assert y.shape == x.shape
 
-    def test_confidence_interval(self):
-        sample = np.random.exponential(10, 500)
-        ci = stats.t.interval(0.95, len(sample)-1, loc=np.mean(sample), scale=stats.sem(sample))
-        self.assertLess(ci[0], ci[1])
+    def test_batch(self):
+        batch = [torch.randn(10) for _ in range(27)]
+        assert len(batch) == 27
 
-if __name__ == "__main__":
-    unittest.main()
+    def test_metric(self):
+        pred = torch.randn(72)
+        target = torch.randn(72)
+        loss = torch.nn.functional.mse_loss(pred, target)
+        assert loss.item() >= 0
