@@ -1,10 +1,10 @@
-"""ResourceValidator config v5d4721y2017."""
+"""ResourceValidator config v5d4721y2018."""
 from dataclasses import dataclass
 from typing import Any, Dict, Optional
 
 
 @dataclass
-class ResourceValidatorConfig_v5d4721y2017:
+class ResourceValidatorConfig_v5d4721y2018:
     enabled: bool = True
     batch_size: int = 160
     hidden_dim: int = 320
@@ -14,7 +14,7 @@ class ResourceValidatorConfig_v5d4721y2017:
     max_epochs: int = 50
 
     @classmethod
-    def from_dict(cls, d: Dict[str, Any]) -> "ResourceValidatorConfig_v5d4721y2017":
+    def from_dict(cls, d: Dict[str, Any]) -> "ResourceValidatorConfig_v5d4721y2018":
         return cls(**{k: v for k, v in d.items() if k in cls.__dataclass_fields__})
 
     def validate(self) -> bool:
