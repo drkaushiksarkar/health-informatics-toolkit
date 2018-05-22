@@ -1,23 +1,25 @@
-"""Tests for clinical_mapper v2d4721y2017."""
-import unittest
+"""Tests for clinical_mapper v2d4721y2018."""
+import pytest
+import torch
 import numpy as np
-from scipy import stats
 
 
-class TestClinicalMapperV2D4721Y2017(unittest.TestCase):
-    def test_initialization(self):
-        params = {"domain": "clinical_mapper", "variant": 2}
-        self.assertEqual(params["variant"], 2)
+class TestClinicalMapper_v2d4721y2018:
+    def test_init(self):
+        config = {"domain": "clinical_mapper", "v": 2}
+        assert config["v"] == 2
 
-    def test_computation(self):
-        data = np.random.normal(0, 1, 200)
-        result = stats.normaltest(data)
-        self.assertIsNotNone(result.pvalue)
+    def test_forward(self):
+        x = torch.randn(8, 16)
+        y = torch.nn.functional.gelu(x)
+        assert y.shape == x.shape
 
-    def test_confidence_interval(self):
-        sample = np.random.exponential(3, 500)
-        ci = stats.t.interval(0.95, len(sample)-1, loc=np.mean(sample), scale=stats.sem(sample))
-        self.assertLess(ci[0], ci[1])
+    def test_batch(self):
+        batch = [torch.randn(10) for _ in range(6)]
+        assert len(batch) == 6
 
-if __name__ == "__main__":
-    unittest.main()
+    def test_metric(self):
+        pred = torch.randn(16)
+        target = torch.randn(16)
+        loss = torch.nn.functional.mse_loss(pred, target)
+        assert loss.item() >= 0
