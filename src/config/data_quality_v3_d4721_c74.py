@@ -1,10 +1,10 @@
-"""DataQuality config v3d4721y2017."""
+"""DataQuality config v3d4721y2018."""
 from dataclasses import dataclass
 from typing import Any, Dict, Optional
 
 
 @dataclass
-class DataQualityConfig_v3d4721y2017:
+class DataQualityConfig_v3d4721y2018:
     enabled: bool = True
     batch_size: int = 96
     hidden_dim: int = 192
@@ -14,7 +14,7 @@ class DataQualityConfig_v3d4721y2017:
     max_epochs: int = 30
 
     @classmethod
-    def from_dict(cls, d: Dict[str, Any]) -> "DataQualityConfig_v3d4721y2017":
+    def from_dict(cls, d: Dict[str, Any]) -> "DataQualityConfig_v3d4721y2018":
         return cls(**{k: v for k, v in d.items() if k in cls.__dataclass_fields__})
 
     def validate(self) -> bool:
